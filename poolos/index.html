@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>The Jacobs Pool — CCS Pools</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #faf8f4;
+  --warm-white: #ffffff;
+  --navy: #1a2e44;
+  --pool-deep: #1e6091;
+  --pool-mid: #2980b9;
+  --pool-light: #aed9f0;
+  --pool-surface: #d6eef8;
+  --amber: #e88c3a;
+  --amber-light: #fef0dc;
+  --sage: #5a7a6a;
+  --sage-light: #e8f0eb;
+  --coral: #e05c52;
+  --coral-light: #fdecea;
+  --text-primary: #1a2e44;
+  --text-secondary: #4a5f72;
+  --text-dim: #8a9baa;
+  --border: #e8e4dc;
+  --shadow: 0 2px 20px rgba(26,46,68,0.08);
+  --shadow-lg: 0 8px 40px rgba(26,46,68,0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--cream);
+  color: var(--text-primary);
+  min-height: 100vh;
+  font-size: 15px;
+}
+
+/* ── HEADER ─────────────────────────────────── */
+.header {
+  background: var(--navy);
+  padding: 16px 20px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60px;
+  background: linear-gradient(180deg, transparent, rgba(30,96,145,0.3));
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.ccs-brand {
+  font-family: 'Playfair Display', serif;
+  color: rgba(255,255,255,0.5);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.greeting {
+  color: white;
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+.greeting strong {
+  font-weight: 600;
+}
+
+.header-badge {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.8);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 6px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* Pool visual in header */
+.pool-visual {
+  position: relative;
+  height: 100px;
+  margin: 0 -20px;
+  overflow: hidden;
+}
+
+.water-body {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 80px;
+  background: linear-gradient(180deg, #2196f3 0%, #1565c0 100%);
+}
+
+.water-ripple {
+  position: absolute;
+  top: 0; left: -100%;
+  width: 300%;
+  height: 20px;
+}
+
+.water-ripple svg {
+  width: 100%;
+  height: 100%;
+  animation: ripple 6s linear infinite;
+}
+
+.water-ripple2 svg {
+  animation: ripple 9s linear infinite reverse;
+  opacity: 0.5;
+}
+
+@keyframes ripple {
+  from { transform: translateX(0); }
+  to { transform: translateX(33.33%); }
+}
+
+.pool-lights {
+  position: absolute;
+  bottom: 20px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.pool-light-glow {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  filter: blur(20px);
+  opacity: 0.6;
+  animation: pulse-light 3s ease-in-out infinite;
+}
+
+.pool-light-glow.blue { background: #4fc3f7; animation-delay: 0s; }
+.pool-light-glow.green { background: #81c784; animation-delay: 1.5s; }
+
+@keyframes pulse-light {
+  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+.temp-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 20px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── BODY ────────────────────────────────────── */
+.body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── CARD BASE ───────────────────────────────── */
+.card {
+  background: var(--warm-white);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  animation: fadeUp 0.5s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card:nth-child(1) { animation-delay: 0.05s; }
+.card:nth-child(2) { animation-delay: 0.10s; }
+.card:nth-child(3) { animation-delay: 0.15s; }
+.card:nth-child(4) { animation-delay: 0.20s; }
+.card:nth-child(5) { animation-delay: 0.25s; }
+
+.card-header {
+  padding: 16px 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.card-body { padding: 16px 20px 20px; }
+
+/* ── HEALTH SCORE ────────────────────────────── */
+.health-card .card-body {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-top: 12px;
+}
+
+.score-ring {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.score-ring svg {
+  transform: rotate(-90deg);
+}
+
+.score-ring .track {
+  fill: none;
+  stroke: var(--pool-surface);
+  stroke-width: 6;
+}
+
+.score-ring .progress {
+  fill: none;
+  stroke: var(--pool-mid);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 220;
+  stroke-dashoffset: 33;
+  transition: stroke-dashoffset 1.5s ease;
+}
+
+.score-number {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--pool-deep);
+}
+
+.health-text h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.health-text p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.health-tag {
+  display: inline-block;
+  background: var(--sage-light);
+  color: var(--sage);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 10px;
+  margin-top: 6px;
+}
+
+/* ── WEATHER ─────────────────────────────────── */
+.weather-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.weather-strip::-webkit-scrollbar { display: none; }
+
+.weather-day {
+  flex-shrink: 0;
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 12px 14px;
+  text-align: center;
+  min-width: 72px;
+  border: 1.5px solid transparent;
+  transition: all 0.2s;
+}
+
+.weather-day.swim-day {
+  background: var(--pool-surface);
+  border-color: var(--pool-mid);
+}
+
+.weather-day.today {
+  background: var(--navy);
+}
+
+.weather-day-name {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.today .weather-day-name { color: rgba(255,255,255,0.6); }
+
+.weather-icon { font-size: 22px; margin-bottom: 6px; }
+
+.weather-temp {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.today .weather-temp { color: white; }
+
+.swim-badge {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--pool-mid);
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+
+/* ── CHEMISTRY ───────────────────────────────── */
+.chem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.chem-item {
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 14px;
+  position: relative;
+}
+
+.chem-item.alert {
+  background: var(--coral-light);
+}
+
+.chem-item.good {
+  background: var(--sage-light);
+}
+
+.chem-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.chem-item.alert .chem-label { color: var(--coral); }
+.chem-item.good .chem-label { color: var(--sage); }
+
+.chem-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.chem-unit {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-dim);
+  margin-left: 2px;
+}
+
+.chem-explain {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.chem-bar {
+  margin-top: 8px;
+  height: 3px;
+  background: rgba(0,0,0,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.chem-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--pool-mid);
+  transition: width 1.2s ease;
+}
+
+.chem-item.alert .chem-bar-fill { background: var(--coral); }
+.chem-item.good .chem-bar-fill { background: var(--sage); }
+
+.chem-status-dot {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--pool-mid);
+}
+
+.chem-item.alert .chem-status-dot { background: var(--coral); box-shadow: 0 0 6px var(--coral); }
+.chem-item.good .chem-status-dot { background: var(--sage); }
+
+/* ── CONTROLS ────────────────────────────────── */
+.controls-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--cream);
+  border-radius: 12px;
+}
+
+.control-info { display: flex; align-items: center; gap: 12px; }
+
+.control-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+
+.control-icon.heater { background: var(--amber-light); }
+.control-icon.light-blue { background: #e3f2fd; }
+.control-icon.light-green { background: #e8f5e9; }
+
+.control-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.control-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 1px;
+}
+
+/* Toggle */
+.toggle {
+  position: relative;
+  width: 48px; height: 28px;
+  flex-shrink: 0;
+}
+
+.toggle input { opacity: 0; width: 0; height: 0; }
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #ddd;
+  border-radius: 14px;
+  transition: 0.3s;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  height: 20px; width: 20px;
+  left: 4px; bottom: 4px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+input:checked + .toggle-slider { background: var(--pool-mid); }
+input:checked + .toggle-slider::before { transform: translateX(20px); }
+
+.toggle.amber input:checked + .toggle-slider { background: var(--amber); }
+
+/* Light color selector */
+.color-picker {
+  display: flex;
+  gap: 6px;
+}
+
+.color-dot {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.color-dot.active { border-color: var(--navy); transform: scale(1.15); }
+.color-dot.c-blue { background: #2196f3; }
+.color-dot.c-green { background: #4caf50; }
+.color-dot.c-red { background: #f44336; }
+.color-dot.c-white { background: #f5f5f5; border: 1px solid #ddd; }
+.color-dot.c-purple { background: #9c27b0; }
+
+/* Temperature slider */
+.temp-control {
+  padding: 14px 16px;
+  background: var(--amber-light);
+  border-radius: 12px;
+}
+
+.temp-control-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.temp-label { font-weight: 600; font-size: 14px; color: var(--amber); }
+.temp-value { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--amber); }
+
+input[type="range"].temp-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(to right, var(--amber) 0%, var(--amber) 60%, #e8e4dc 60%);
+  outline: none;
+}
+
+input[type="range"].temp-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--amber);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(232,140,58,0.4);
+}
+
+/* ── CALENDAR ────────────────────────────────── */
+.service-card {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--pool-deep) 100%);
+  border-radius: 16px;
+  overflow: hidden;
+  color: white;
+  box-shadow: var(--shadow-lg);
+}
+
+.service-header {
+  padding: 16px 20px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.service-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 4px;
+}
+
+.service-date {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: white;
+}
+
+.service-days-away {
+  background: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.9);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+.service-week {
+  padding: 0 20px 16px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.week-day {
+  text-align: center;
+  padding: 8px 0;
+  border-radius: 8px;
+}
+
+.week-day-name {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 4px;
+}
+
+.week-day-num {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+}
+
+.week-day.service-day {
+  background: rgba(255,255,255,0.15);
+}
+
+.week-day.service-day .week-day-num {
+  color: white;
+  font-weight: 700;
+}
+
+.service-dot {
+  width: 4px; height: 4px;
+  background: var(--pool-light);
+  border-radius: 50%;
+  margin: 3px auto 0;
+}
+
+.week-day.today-cal .week-day-num {
+  color: var(--amber);
+  font-weight: 700;
+}
+
+.service-notes {
+  padding: 12px 20px 16px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.service-note-chip {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.8);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ── MESSAGING ───────────────────────────────── */
+.message-area {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message-bubble {
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  max-width: 85%;
+}
+
+.message-bubble.from-ccs {
+  background: var(--navy);
+  color: white;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.message-bubble.from-jacob {
+  background: var(--pool-surface);
+  color: var(--text-primary);
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.message-time {
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 3px;
+}
+
+.message-time.right { text-align: right; }
+
+.message-input-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.message-input {
+  flex: 1;
+  background: var(--cream);
+  border: 1.5px solid var(--border);
+  border-radius: 24px;
+  padding: 12px 16px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.message-input:focus { border-color: var(--pool-mid); }
+.message-input::placeholder { color: var(--text-dim); }
+
+.send-btn {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: var(--navy);
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+  box-shadow: 0 4px 12px rgba(26,46,68,0.25);
+}
+
+.send-btn:active { background: var(--pool-deep); transform: scale(0.95); }
+
+/* Quick message chips */
+.quick-msgs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.quick-msgs::-webkit-scrollbar { display: none; }
+
+.quick-chip {
+  flex-shrink: 0;
+  background: white;
+  border: 1.5px solid var(--border);
+  color: var(--text-secondary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.quick-chip:active { background: var(--pool-surface); border-color: var(--pool-mid); color: var(--pool-deep); }
+
+/* ── ALERT BANNER ────────────────────────────── */
+.alert-banner {
+  background: linear-gradient(135deg, var(--coral-light), #fde8e7);
+  border: 1.5px solid rgba(224,92,82,0.2);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.alert-icon { font-size: 20px; flex-shrink: 0; }
+
+.alert-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--coral);
+  margin-bottom: 3px;
+}
+
+.alert-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.alert-action {
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--coral);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ── BOTTOM NAV ──────────────────────────────── */
+.bottom-nav {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0 20px;
+  box-shadow: 0 -4px 20px rgba(26,46,68,0.06);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 16px;
+  cursor: pointer;
+}
+
+.nav-icon { font-size: 20px; }
+.nav-label { font-size: 10px; font-weight: 500; color: var(--text-dim); }
+.nav-item.active .nav-label { color: var(--pool-mid); }
+.nav-item.active .nav-icon { filter: none; }
+
+/* ── SECTION DIVIDER ─────────────────────────── */
+.section-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 0 4px;
+  margin-bottom: -4px;
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ──────────────────────────────────── -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="ccs-brand">CCS Pools</div>
+      <div class="greeting">Good morning, <strong>Jacobs</strong> 👋</div>
+    </div>
+    <div class="header-badge">🔵 Pool Online</div>
+  </div>
+
+  <div class="pool-visual">
+    <div class="water-body"></div>
+    <div class="water-ripple">
+      <svg viewBox="0 0 1200 20" preserveAspectRatio="none">
+        <path d="M0,10 C150,20 350,0 600,10 C850,20 1050,0 1200,10 L1200,20 L0,20 Z" fill="rgba(255,255,255,0.15)"/>
+      </svg>
+    </div>
+    <div class="water-ripple water-ripple2">
+      <svg viewBox="0 0 1200 20" preserveAspectRatio="none">
+        <path d="M0,12 C200,4 400,18 600,12 C800,4 1000,18 1200,12 L1200,20 L0,20 Z" fill="rgba(255,255,255,0.08)"/>
+      </svg>
+    </div>
+    <div class="pool-lights">
+      <div class="pool-light-glow blue"></div>
+      <div class="pool-light-glow green"></div>
+    </div>
+    <div class="temp-badge">🌡️ 84°F — Heater on</div>
+  </div>
+</div>
+
+<!-- ── MAIN BODY ────────────────────────────────── -->
+<div class="body">
+
+  <!-- ALERT -->
+  <div class="alert-banner" style="animation: fadeUp 0.5s ease both;">
+    <div class="alert-icon">⚠️</div>
+    <div>
+      <div class="alert-title">Chlorine is a little low</div>
+      <div class="alert-text">Your free chlorine is at 0.8 ppm — just below the recommended 1–3 ppm range. Your pool is still safe, but we'd suggest adding one trichlor tab before the weekend.</div>
+      <div class="alert-action">Notify CCS to handle at next visit →</div>
+    </div>
+  </div>
+
+  <!-- HEALTH SCORE -->
+  <div class="section-label">Overall Status</div>
+  <div class="card health-card">
+    <div class="card-body">
+      <div class="score-ring">
+        <svg viewBox="0 0 80 80" width="80" height="80">
+          <circle class="track" cx="40" cy="40" r="35"/>
+          <circle class="progress" cx="40" cy="40" r="35"/>
+        </svg>
+        <div class="score-number">85</div>
+      </div>
+      <div class="health-text">
+        <h3>Looking Good</h3>
+        <p>Your water chemistry is mostly in range. Chlorine needs a small boost before the weekend.</p>
+        <span class="health-tag">✓ Safe to swim</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEATHER -->
+  <div class="section-label">Swimming Forecast</div>
+  <div class="card">
+    <div class="card-body" style="padding-top: 16px;">
+      <div class="weather-strip">
+        <div class="weather-day today">
+          <div class="weather-day-name">Today</div>
+          <div class="weather-icon">☀️</div>
+          <div class="weather-temp">89°</div>
+        </div>
+        <div class="weather-day swim-day">
+          <div class="weather-day-name">Thu</div>
+          <div class="weather-icon">⛅</div>
+          <div class="weather-temp">84°</div>
+          <div class="swim-badge">SWIM</div>
+        </div>
+        <div class="weather-day">
+          <div class="weather-day-name">Fri</div>
+          <div class="weather-icon">🌧️</div>
+          <div class="weather-temp">71°</div>
+        </div>
+        <div class="weather-day swim-day">
+          <div class="weather-day-name">Sat</div>
+          <div class="weather-icon">☀️</div>
+          <div class="weather-temp">91°</div>
+          <div class="swim-badge">SWIM</div>
+        </div>
+        <div class="weather-day swim-day">
+          <div class="weather-day-name">Sun</div>
+          <div class="weather-icon">☀️</div>
+          <div class="weather-temp">88°</div>
+          <div class="swim-badge">SWIM</div>
+        </div>
+        <div class="weather-day">
+          <div class="weather-day-name">Mon</div>
+          <div class="weather-icon">⛅</div>
+          <div class="weather-temp">76°</div>
+        </div>
+        <div class="weather-day">
+          <div class="weather-day-name">Tue</div>
+          <div class="weather-icon">⛅</div>
+          <div class="weather-temp">78°</div>
+        </div>
+      </div>
+      <div style="font-size:11px; color: var(--text-dim); margin-top: 10px;">🏊 Great swimming weather this weekend. Water is 84°F.</div>
+    </div>
+  </div>
+
+  <!-- CHEMISTRY -->
+  <div class="section-label">Water Chemistry</div>
+  <div class="card">
+    <div class="card-body" style="padding-top:16px;">
+      <div class="chem-grid">
+
+        <div class="chem-item alert">
+          <div class="chem-status-dot"></div>
+          <div class="chem-label">Free Chlorine</div>
+          <div class="chem-value">0.8<span class="chem-unit">ppm</span></div>
+          <div class="chem-bar"><div class="chem-bar-fill" style="width:27%"></div></div>
+          <div class="chem-explain">Should be 1–3 ppm. Keeps bacteria out of your water.</div>
+        </div>
+
+        <div class="chem-item good">
+          <div class="chem-status-dot"></div>
+          <div class="chem-label">pH Level</div>
+          <div class="chem-value">7.4</div>
+          <div class="chem-bar"><div class="chem-bar-fill" style="width:70%"></div></div>
+          <div class="chem-explain">Perfect. 7.2–7.6 means no eye irritation and great clarity.</div>
+        </div>
+
+        <div class="chem-item good">
+          <div class="chem-status-dot"></div>
+          <div class="chem-label">Alkalinity</div>
+          <div class="chem-value">95<span class="chem-unit">ppm</span></div>
+          <div class="chem-bar"><div class="chem-bar-fill" style="width:65%"></div></div>
+          <div class="chem-explain">Keeps your pH stable so it doesn't swing up or down.</div>
+        </div>
+
+        <div class="chem-item good">
+          <div class="chem-status-dot"></div>
+          <div class="chem-label">Calcium</div>
+          <div class="chem-value">280<span class="chem-unit">ppm</span></div>
+          <div class="chem-bar"><div class="chem-bar-fill" style="width:60%"></div></div>
+          <div class="chem-explain">Good hardness — protects your liner and equipment.</div>
+        </div>
+
+        <div class="chem-item good">
+          <div class="chem-status-dot"></div>
+          <div class="chem-label">Stabilizer</div>
+          <div class="chem-value">42<span class="chem-unit">ppm</span></div>
+          <div class="chem-bar"><div class="chem-bar-fill" style="width:58%"></div></div>
+          <div class="chem-explain">Protects your chlorine from burning off in the sun.</div>
+        </div>
+
+        <div class="chem-item">
+          <div class="chem-status-dot"></div>
+          <div class="chem-label">Last Tested</div>
+          <div class="chem-value" style="font-size:18px; padding-top:4px;">Apr 6</div>
+          <div class="chem-bar"><div class="chem-bar-fill" style="width:0%"></div></div>
+          <div class="chem-explain">CCS tested during Tuesday's service visit.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- POOL CONTROLS -->
+  <div class="section-label">Pool Controls</div>
+  <div class="card">
+    <div class="card-body" style="padding-top:16px;">
+      <div class="controls-grid">
+
+        <!-- Heater temp -->
+        <div class="temp-control">
+          <div class="temp-control-header">
+            <div class="temp-label">🔥 Heater Temperature</div>
+            <div class="temp-value">84°F</div>
+          </div>
+          <input type="range" class="temp-slider" min="60" max="104" value="84"
+            oninput="this.parentElement.querySelector('.temp-value').textContent = this.value + '°F'">
+          <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--amber); margin-top:6px; opacity:0.7;">
+            <span>60°</span><span>82° Comfort</span><span>104°</span>
+          </div>
+        </div>
+
+        <!-- Heater on/off -->
+        <div class="control-row">
+          <div class="control-info">
+            <div class="control-icon heater">🔥</div>
+            <div>
+              <div class="control-name">Heater</div>
+              <div class="control-sub">Currently on · est. $2.10/hr</div>
+            </div>
+          </div>
+          <label class="toggle amber">
+            <input type="checkbox" checked>
+            <div class="toggle-slider"></div>
+          </label>
+        </div>
+
+        <!-- Light 1 -->
+        <div class="control-row">
+          <div class="control-info">
+            <div class="control-icon light-blue">💡</div>
+            <div>
+              <div class="control-name">Light 1 — Deep End</div>
+              <div class="control-sub">Color</div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+            <label class="toggle">
+              <input type="checkbox" checked>
+              <div class="toggle-slider"></div>
+            </label>
+            <div class="color-picker">
+              <div class="color-dot c-blue active" onclick="setActive(this)"></div>
+              <div class="color-dot c-green" onclick="setActive(this)"></div>
+              <div class="color-dot c-purple" onclick="setActive(this)"></div>
+              <div class="color-dot c-white" onclick="setActive(this)"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Light 2 -->
+        <div class="control-row">
+          <div class="control-info">
+            <div class="control-icon light-green">💡</div>
+            <div>
+              <div class="control-name">Light 2 — Shallow End</div>
+              <div class="control-sub">Color</div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+            <label class="toggle">
+              <input type="checkbox" checked>
+              <div class="toggle-slider"></div>
+            </label>
+            <div class="color-picker">
+              <div class="color-dot c-blue" onclick="setActive(this)"></div>
+              <div class="color-dot c-green active" onclick="setActive(this)"></div>
+              <div class="color-dot c-red" onclick="setActive(this)"></div>
+              <div class="color-dot c-white" onclick="setActive(this)"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- NEXT SERVICE -->
+  <div class="service-card" style="animation: fadeUp 0.5s ease 0.2s both;">
+    <div class="service-header">
+      <div>
+        <div class="service-title">Next Service Visit</div>
+        <div class="service-date">Tuesday, April 14</div>
+      </div>
+      <div class="service-days-away">6 days away</div>
+    </div>
+
+    <div class="service-week">
+      <div class="week-day">
+        <div class="week-day-name">S</div>
+        <div class="week-day-num">6</div>
+      </div>
+      <div class="week-day today-cal">
+        <div class="week-day-name">M</div>
+        <div class="week-day-num">7</div>
+        <div class="service-dot" style="background: var(--amber);"></div>
+      </div>
+      <div class="week-day">
+        <div class="week-day-name">T</div>
+        <div class="week-day-num">8</div>
+      </div>
+      <div class="week-day">
+        <div class="week-day-name">W</div>
+        <div class="week-day-num">9</div>
+      </div>
+      <div class="week-day">
+        <div class="week-day-name">T</div>
+        <div class="week-day-num">10</div>
+      </div>
+      <div class="week-day">
+        <div class="week-day-name">F</div>
+        <div class="week-day-num">11</div>
+      </div>
+      <div class="week-day">
+        <div class="week-day-name">S</div>
+        <div class="week-day-num">12</div>
+      </div>
+    </div>
+
+    <div style="padding: 0 20px 12px; color: rgba(255,255,255,0.7); font-size:12px;">
+      Week of April 14th →
+    </div>
+
+    <div class="service-week">
+      <div class="week-day">
+        <div class="week-day-name">S</div>
+        <div class="week-day-num">13</div>
+      </div>
+      <div class="week-day service-day">
+        <div class="week-day-name">M</div>
+        <div class="week-day-num">14</div>
+        <div class="service-dot"></div>
+      </div>
+      <div class="week-day">
+        <div class="week-day-name">T</div>
+        <div class="week-day-num">15</div>
+      </div>
+      <div class="week-day">
+        <div class="week-day-name">W</div>
+        <div class="week-day-num">16</div>
+      </div>
+      <div class="week-day">
+        <div class="week-day-name">T</div>
+        <div class="week-day-num">17</div>
+      </div>
+      <div class="week-day">
+        <div class="week-day-name">F</div>
+        <div class="week-day-num">18</div>
+      </div>
+      <div class="week-day">
+        <div class="week-day-name">S</div>
+        <div class="week-day-num">19</div>
+      </div>
+    </div>
+
+    <div class="service-notes">
+      <div class="service-note-chip">⚗️ Chemical balance</div>
+      <div class="service-note-chip">🧹 Brush & vacuum</div>
+      <div class="service-note-chip">🔍 Inspect filter</div>
+    </div>
+  </div>
+
+  <!-- MESSAGING -->
+  <div class="section-label">Message CCS Pools</div>
+  <div class="card">
+    <div class="card-body" style="padding-top:16px;">
+      <div class="quick-msgs">
+        <div class="quick-chip">🎉 Party this weekend</div>
+        <div class="quick-chip">❓ Chlorine question</div>
+        <div class="quick-chip">🔧 Something's off</div>
+        <div class="quick-chip">📅 Change visit day</div>
+      </div>
+
+      <div class="message-area" style="margin-top:14px;">
+        <div>
+          <div class="message-bubble from-ccs">
+            Hi Jacobs! Your Tuesday service is confirmed. We'll bring an extra tab since your chlorine is a bit low. Enjoy the pool this weekend! ☀️
+          </div>
+          <div class="message-time">CCS Pools · Tuesday 9:14 AM</div>
+        </div>
+        <div style="align-self:flex-end;">
+          <div class="message-bubble from-jacob">
+            Thanks! We're having people over Saturday — should we add anything before then?
+          </div>
+          <div class="message-time right">You · 9:22 AM</div>
+        </div>
+        <div>
+          <div class="message-bubble from-ccs">
+            Great call. Drop a tab in the floater today and you'll be perfect for Saturday. We'll take care of everything else Tuesday. 👍
+          </div>
+          <div class="message-time">CCS Pools · 9:31 AM</div>
+        </div>
+      </div>
+
+      <div class="message-input-row" style="margin-top:14px;">
+        <input class="message-input" type="text" placeholder="Message CCS Pools…">
+        <button class="send-btn">➤</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── BOTTOM NAV ────────────────────────────────── -->
+<div class="bottom-nav">
+  <div class="nav-item active">
+    <div class="nav-icon">🏠</div>
+    <div class="nav-label" style="color:var(--pool-mid)">Home</div>
+  </div>
+  <div class="nav-item">
+    <div class="nav-icon">⚗️</div>
+    <div class="nav-label">Chemistry</div>
+  </div>
+  <div class="nav-item">
+    <div class="nav-icon">📅</div>
+    <div class="nav-label">Schedule</div>
+  </div>
+  <div class="nav-item">
+    <div class="nav-icon">💬</div>
+    <div class="nav-label">Messages</div>
+  </div>
+  <div class="nav-item">
+    <div class="nav-icon">⚙️</div>
+    <div class="nav-label">Settings</div>
+  </div>
+</div>
+
+<script>
+function setActive(dot) {
+  const picker = dot.parentElement;
+  picker.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+  dot.classList.add('active');
+}
+
+// Animate score ring on load
+window.addEventListener('load', () => {
+  const progress = document.querySelector('.score-ring .progress');
+  const score = 85;
+  const circumference = 220;
+  const offset = circumference - (score / 100) * circumference;
+  setTimeout(() => {
+    progress.style.strokeDashoffset = offset;
+  }, 300);
+});
+</script>
+</body>
+</html>
